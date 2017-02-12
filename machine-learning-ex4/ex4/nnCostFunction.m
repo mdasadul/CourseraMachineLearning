@@ -73,6 +73,20 @@ regulrizer = (lambda/(2*m))*(sum((Theta1.^2)(:))+sum((Theta2.^2)(:)));
 %               over the training examples if you are implementing it for the 
 %               first time.
 %
+   d_3 = a_3-y;
+
+    % 26x10*10x5000==26x5000
+	%5000x10 *10x25 *5000*25 ==5000*25 ===5000x25
+	Theta2 = Theta2(:,2:end)
+	d_2 = d_3*Theta2.*sigmoidGradient(z_2);
+	
+	
+	del_1 = d_2*a_1';
+	del_2 = d_3*a_2';
+	Theta1_grad = del_1/m;
+	Theta2_grad = del_2/m;
+
+
 % Part 3: Implement regularization with the cost function and gradients.
 %
 %         Hint: You can implement this around the code for
