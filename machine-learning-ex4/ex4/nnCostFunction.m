@@ -47,7 +47,7 @@ a2 = sigmoid(z2);
 a2 = [ones(size(a2,1),1) a2];
 z3 = a2*Theta2';
 a3 = sigmoid(z3);
-temp_j = 0
+temp_j = 0;
 for i = 1:m
 	temp_j =temp_j+ (1/m)*(-y(i,:)*(log(a3(i,:)))'-(1-y(i,:))*(log(1-a3(i,:)))') ;
 end
@@ -73,19 +73,24 @@ regulrizer = (lambda/(2*m))*(sum((Theta1.^2)(:))+sum((Theta2.^2)(:)));
 %               over the training examples if you are implementing it for the 
 %               first time.
 %
-   d_3 = a_3-y;
+   d_3 = a3-y;
 
     % 26x10*10x5000==26x5000
 	%5000x10 *10x25 *5000*25 ==5000*25 ===5000x25
-	Theta2 = Theta2(:,2:end)
-	d_2 = d_3*Theta2.*sigmoidGradient(z_2);
+	Theta2 = Theta2(:,2:end);
+	d_2 = d_3*Theta2.*sigmoidGradient(z2);
 	
 	
-	del_1 = d_2*a_1';
-	del_2 = d_3*a_2';
+	del_1 = d_2'*a1;
+	del_2 = d_3'*a2;
 	Theta1_grad = del_1/m;
 	Theta2_grad = del_2/m;
-
+	
+	regulrizer_theta1_grad = lambda/m* Theta1;
+	regulrizer_theta2_grad = lambda/m* Theta2;
+	Theta1_grad =Theta1_grad + regulrizer_theta1_grad;
+	regulrizer_theta2_grad = [zeros(size(regulrizer_theta2_grad,1),1) regulrizer_theta2_grad];
+	Theta2_grad =Theta2_grad + regulrizer_theta2_grad;
 
 % Part 3: Implement regularization with the cost function and gradients.
 %

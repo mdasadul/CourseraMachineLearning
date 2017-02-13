@@ -141,30 +141,6 @@ initial_nn_params = [initial_Theta1(:) ; initial_Theta2(:)];
 %  code you've written in nnCostFunction.m to return the partial
 %  derivatives of the parameters.
 %
-Theta1_grad = zeros(size(initial_Theta1));
-Theta2_grad = zeros(size(initial_Theta2));
-
-for t = 1 : m
-	a_1 = X(t,:);
-	a_1 = [1 a_1];
-	z_2 = a_1*Theta1';
-	a_2 = sigmoid(z_2);
-	a_2 =[1 a_2];
-	z_3 = a_2*Theta2';
-	a_3 = sigmoid(z_3);
-	
-	
-	d_3 = a_3.-y(t);
-	d_2 = Theta2'*(d_3.*sigmoidGradient(z_2))';
-	d_2 = d_2(2:end);
-	
-	del_1 = del_1 + d_2*a_1';
-	del_2 = del_2 + d_3*a_2';
-end
-Theta1_grad = del_1/m;
-Theta2_grad = del_2/m;
-fprintf('\nChecking Backpropagation... \n');
-
 
 %  Check gradients by running checkNNGradients
 checkNNGradients;
